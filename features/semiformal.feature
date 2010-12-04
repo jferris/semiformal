@@ -10,7 +10,6 @@ Feature: generate an application and run rake
     """
     When I add the "semiformal" gem from this project as a dependency
     And I successfully run "bundle install"
-    And I configure a global route
 
   Scenario: simple form
     When I successfully run "rails generate model post title:string body:string"
@@ -20,22 +19,24 @@ Feature: generate an application and run rake
       def new
         @post = Post.new
         @form = Semiformal::Form.new(@post)
+        render
+      end
+
+      def create
+        render :text => "Success"
       end
     end
     """
     When I write to "app/views/posts/new.html.erb" with:
     """
     <%= render_form @form do |form| -%>
+      <input type="submit" value="Create" />
     <% end -%>
     """
-    When I successfully run "rake db:migrate"
+    When I route the "posts" resource
+    When I successfully run "rake db:migrate db:test:prepare"
     And I start the application
-    And I GET /posts/new
-    Then the response should have the following "form" tag:
-      | action | /posts |
-      | method | post   |
-    And the response should have the following "input" tag:
-      | type  | hidden  |
-      | name  | _method |
-      | value | PUT     |
+    And I visit /posts/new
+    And I press "Create"
+    Then I should see "Success"
 

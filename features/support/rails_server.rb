@@ -8,9 +8,10 @@ class RailsServer
     attr_accessor :instance
   end
 
-  def self.start(port = nil)
-    self.instance = new(port)
+  def self.start(port = nil, debug = nil)
+    self.instance = new(port, debug)
     self.instance.start
+    self.instance
   end
 
   def self.stop
@@ -22,21 +23,30 @@ class RailsServer
     self.instance.get(path)
   end
 
+  def self.post(path, data)
+    self.instance.post(path, data)
+  end
+
   def self.run(port, silent)
+    ENV['RAILS_ENV'] ||= 'test'
     require 'config/environment'
-    app = Identify.new(ActionController::Dispatcher.new)
+    app = Identify.new(Rails.application)
     Thin::Logging.silent = silent
     Rack::Handler::Thin.run(app, :Port => port, :AccessLog => [])
   end
 
-  def initialize(port)
+  def self.app_host
+    self.instance.app_host
+  end
+
+  def initialize(port, debug)
     @port = (port || 3001).to_i
+    @debug = debug
   end
 
   def start
     @pid = fork do
-      silent = ENV['DEBUG'].nil?
-      exec("ruby -r#{__FILE__} -e 'RailsServer.run(#{@port}, #{silent.inspect})'")
+      exec("ruby -r#{__FILE__} -e 'RailsServer.run(#{@port}, #{!@debug.inspect})'")
     end
     wait_until_responsive
   end
@@ -50,8 +60,11 @@ class RailsServer
   end
 
   def get(path)
-    response = Net::HTTP.start(HOST, @port) { |http| http.get(path) }
-    response.body
+     Net::HTTP.start(HOST, @port) { |http| http.get(path) }
+  end
+
+  def post(path, data)
+     Net::HTTP.start(HOST, @port) { |http| http.post(path, data) }
   end
 
   def wait_until_responsive
@@ -70,6 +83,10 @@ class RailsServer
     response.is_a?(Net::HTTPSuccess)
   rescue Errno::ECONNREFUSED, Errno::EBADF
     return false
+  end
+
+  def app_host
+    "http://#{HOST}:#{@port}"
   end
 
   # From Capybara::Server
