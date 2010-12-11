@@ -5,9 +5,10 @@ require 'date'
 require 'rake/gempackagetask'
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
+require 'reek/rake/task'
 
-desc 'Default: run the specs and cucumber features.'
-task :default => [:spec, :cucumber, :rcov]
+desc 'Default: run all tests and metrics'
+task :default => [:spec, :cucumber, :rcov, :reek]
 
 Cucumber::Rake::Task.new(:cucumber) do |t|
   t.fork = true
@@ -25,6 +26,11 @@ RSpec::Core::RakeTask.new(:rcov) do |t|
   t.rcov_opts = %{--exclude osx\/objc,spec,gems\/ --failure-threshold 100}
   t.pattern = "spec/**/*_spec.rb"
   t.rspec_opts = "--format progress"
+end
+
+Reek::Rake::Task.new do |t|
+  t.fail_on_error = true
+  t.reek_opts = '-q'
 end
 
 eval("$specification = begin; #{IO.read('semiformal.gemspec')}; end")

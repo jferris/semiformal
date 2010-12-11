@@ -1,6 +1,7 @@
 require 'action_view'
 
 module Semiformal
+  # Generates HTML for a Form.
   class Renderer
     attr_reader :form
 
@@ -22,10 +23,11 @@ module Semiformal
 
     def input(name)
       attribute = form.attribute(name)
-      label = content_tag(:label, name.to_s.titleize, :for => attribute.html_id)
+      html_id = attribute.html_id
+      label = content_tag(:label, name.to_s.titleize, :for => html_id)
       input = tag(:input, :type => 'text',
                           :name => attribute.param_name,
-                          :id   => attribute.html_id)
+                          :id   => html_id)
       content_tag(:li, label + input)
     end
 

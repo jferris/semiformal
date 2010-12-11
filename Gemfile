@@ -10,4 +10,5 @@ gem "launchy"
 gem "ruby-debug"
 gem "rack"
 gem "rcov"
+gem "reek"
 

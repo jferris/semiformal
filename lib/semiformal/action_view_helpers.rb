@@ -10,9 +10,7 @@ module Semiformal
   end
 end
 
-module ActionView
-  class Base
-    include Semiformal::ActionViewHelpers
-  end
+ActionView::Base.class_eval do
+  include Semiformal::ActionViewHelpers
 end
 

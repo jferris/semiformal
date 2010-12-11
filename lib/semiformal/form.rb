@@ -1,6 +1,8 @@
 require 'semiformal/attribute'
 
 module Semiformal
+  # Defines accepted parameters, conversions, and generated attribute names for
+  # an html form.
   class Form
     attr_reader :controller, :target
 
@@ -14,9 +16,9 @@ module Semiformal
     end
 
     def default_attributes
-      { 'class'  => controller.dom_class(target),
+      { 'class'  => html_class,
         'id'     => html_id,
-        'action' => controller.url_for(url),
+        'action' => html_action,
         'method' => 'post' }
     end
 
@@ -31,6 +33,16 @@ module Semiformal
 
     def param_name
       target.class.model_name.singular
+    end
+
+    private
+
+    def html_class
+      controller.dom_class(target)
+    end
+
+    def html_action
+      controller.url_for(url)
     end
   end
 end
