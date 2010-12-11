@@ -7,7 +7,7 @@ require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
 desc 'Default: run the specs and cucumber features.'
-task :default => [:spec, :cucumber]
+task :default => [:spec, :cucumber, :rcov]
 
 Cucumber::Rake::Task.new(:cucumber) do |t|
   t.fork = true
@@ -19,8 +19,17 @@ RSpec::Core::RakeTask.new do |t|
   t.rspec_opts = "--format progress"
 end
 
+desc "Run rcov"
+RSpec::Core::RakeTask.new(:rcov) do |t|
+  t.rcov = true
+  t.rcov_opts = %{--exclude osx\/objc,spec,gems\/ --failure-threshold 100}
+  t.pattern = "spec/**/*_spec.rb"
+  t.rspec_opts = "--format progress"
+end
+
 eval("$specification = begin; #{IO.read('semiformal.gemspec')}; end")
 Rake::GemPackageTask.new($specification) do |package|
   package.need_zip = true
   package.need_tar = true
 end
+

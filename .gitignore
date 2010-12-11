@@ -3,4 +3,5 @@ tmp
 *.swp
 *~
 pkg
+coverage
 
