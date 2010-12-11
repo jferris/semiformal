@@ -21,8 +21,11 @@ module Semiformal
     end
 
     def input(name)
-      label = content_tag(:label, name.to_s.titleize, :for => "#{form.target.class.name.underscore}_#{name}")
-      input = tag(:input, :type => 'text', :name => "#{form.target.class.name.underscore}[#{name}]", :id => "#{form.target.class.name.underscore}_#{name}")
+      attribute = form.attribute(name)
+      label = content_tag(:label, name.to_s.titleize, :for => attribute.html_id)
+      input = tag(:input, :type => 'text',
+                          :name => attribute.param_name,
+                          :id   => attribute.html_id)
       content_tag(:li, label + input)
     end
 

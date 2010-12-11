@@ -15,6 +15,14 @@ describe Semiformal::Form do
     subject.url.should == target
   end
 
+  it "has an html id" do
+    subject.html_id.should == controller.dom_id(target)
+  end
+
+  it "has a param name" do
+    subject.param_name.should == 'model'
+  end
+
   context "default attributes" do
     subject { form.default_attributes }
 
@@ -23,7 +31,7 @@ describe Semiformal::Form do
     end
 
     it "sets the id" do
-      subject['id'].should == controller.dom_id(target)
+      subject['id'].should == form.html_id
     end
 
     it "sets the action" do
@@ -32,6 +40,16 @@ describe Semiformal::Form do
 
     it "sets the method" do
       subject['method'].should == "post"
+    end
+  end
+
+  context "attribute" do
+    let(:name) { 'title' }
+    subject { form.attribute(name) }
+
+    it "returns an attribute with that name" do
+      should be_a(Semiformal::Attribute)
+      subject.name.should == name
     end
   end
 end
