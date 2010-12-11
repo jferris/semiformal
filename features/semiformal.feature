@@ -18,7 +18,7 @@ Feature: generate an application and run rake
     class PostsController < ApplicationController
       def new
         @post = Post.new
-        @form = Semiformal::Form.new(@post)
+        @form = Semiformal::Form.new(self, @post)
         render
       end
 

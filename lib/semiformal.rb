@@ -1,6 +1,3 @@
 require 'semiformal/form'
-
-if defined?(Rails)
-  require 'semiformal/rails'
-end
+require 'semiformal/action_view_helpers'
 

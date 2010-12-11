@@ -31,7 +31,8 @@ class Capybara::Driver::RailsServer < Capybara::Driver::Base
     @body ||= @current_response.body
   end
 
-  def submit(method, path, params)
+  def submit(method, url, params)
+    path = URI.parse(url).path
     send(method, path, params)
   end
 
@@ -66,7 +67,7 @@ Capybara.register_driver :rails_server do |app|
 end
 
 Capybara.default_selector = :css
-Capybara.save_and_open_page_path = 'tmp'
+Capybara.save_and_open_page_path = 'tmp/capybara'
 Capybara.run_server = false
 Capybara.default_driver = :rails_server
 
