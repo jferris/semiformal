@@ -6,15 +6,21 @@ describe Semiformal::ActionViewHelpers do
   let(:controller) { Controller.new }
   let(:form) { Semiformal::Form.new(controller, target) }
 
-  it "generates a form for the given object" do
-    rendered = Renderer.render %{
-      <%= render_form form do |form| -%>
-        <span>inner</span>
-      <% end -%>
-    }, :form => form
+  def render(template)
+    view = ActionView::Base.new
+    view.render(:inline => template, :locals => { :form => form })
+  end
 
-    rendered.should have_css("form#new_model.model[action='/models'][method='post']")
-    rendered.should have_css("span:contains('inner')")
+  it "yields a renderer for the form and returns the result" do
+    rendered = render %{
+      <%= render_form form do |form| -%>
+        <span class="class_name"><%= form.class.name %></span>
+        <span class="form_object_id"><%= form.form.object_id %></span>
+      <% end -%>
+    }
+
+    rendered.should have_css("form .class_name:contains('FormRenderer')")
+    rendered.should have_css("form .form_object_id:contains('#{form.object_id}')")
   end
 end
 

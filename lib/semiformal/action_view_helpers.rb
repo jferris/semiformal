@@ -1,12 +1,11 @@
 require 'action_view'
 require 'semiformal/form'
+require 'semiformal/form_renderer'
 
 module Semiformal
   module ActionViewHelpers
     def render_form(form, &block)
-      output = tag(:form, form.default_attributes, true)
-      output << capture(form, &block)
-      output.safe_concat('</form>')
+      FormRenderer.new(self, form).render(&block)
     end
   end
 end

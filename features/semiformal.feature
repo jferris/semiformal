@@ -23,13 +23,16 @@ Feature: generate an application and run rake
       end
 
       def create
-        render :text => "Success"
+        render :text => params[:post][:title].inspect
       end
     end
     """
     When I write to "app/views/posts/new.html.erb" with:
     """
     <%= render_form @form do |form| -%>
+      <%= form.inputs do -%>
+        <%= form.input :title %>
+      <% end -%>
       <input type="submit" value="Create" />
     <% end -%>
     """
@@ -37,6 +40,7 @@ Feature: generate an application and run rake
     When I successfully run "rake db:migrate db:test:prepare"
     And I start the application
     And I visit /posts/new
+    And I fill in "Title" with "example"
     And I press "Create"
-    Then I should see "Success"
+    Then I should see "example"
 

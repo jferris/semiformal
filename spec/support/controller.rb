@@ -1,4 +1,3 @@
-
 class Controller
   def url_for(target)
     "/models"
