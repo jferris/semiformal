@@ -21,6 +21,12 @@ module Semiformal
       content_tag(:fieldset, fields, :class => 'inputs')
     end
 
+    def buttons(&block)
+      contents = capture(&block)
+      buttons = content_tag(:ol, contents)
+      content_tag(:fieldset, buttons, :class => 'buttons')
+    end
+
     def input(name)
       attribute = form.attribute(name)
       html_id = attribute.html_id
@@ -29,6 +35,10 @@ module Semiformal
                           :name => attribute.param_name,
                           :id   => html_id)
       content_tag(:li, label + input)
+    end
+
+    def commit_button
+      tag(:input, :type => 'submit', :name => 'commit', :value => form.commit_button_value)
     end
 
     private

@@ -27,7 +27,7 @@ describe Semiformal::Renderer do
     rendered.should have_css("span:contains('inner')")
   end
 
-  it "generates a fieldset" do
+  it "generates a list of inputs" do
     rendered = subject.inputs { "<li>inner</li>".html_safe }
 
     rendered.should have_css("fieldset.inputs ol li:contains('inner')")
@@ -38,6 +38,18 @@ describe Semiformal::Renderer do
 
     rendered.should have_css("li input[type=text][name='model[title]'][id=model_title]")
     rendered.should have_css("li label[for=model_title]:contains('Title')")
+  end
+
+  it "generates a list of buttons" do
+    rendered = subject.buttons { "<li>inner</li>".html_safe }
+
+    rendered.should have_css("fieldset.buttons ol li:contains('inner')")
+  end
+
+  it "generates a commit button" do
+    rendered = subject.commit_button
+
+    rendered.should have_css("input[type=submit][name=commit][value='Create Model']")
   end
 end
 

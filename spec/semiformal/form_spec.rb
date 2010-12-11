@@ -23,6 +23,10 @@ describe Semiformal::Form do
     subject.param_name.should == 'model'
   end
 
+  it "has a commit button value" do
+    subject.commit_button_value.should == "Create Model"
+  end
+
   context "default attributes" do
     subject { form.default_attributes }
 

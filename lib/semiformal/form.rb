@@ -32,7 +32,11 @@ module Semiformal
     end
 
     def param_name
-      target.class.model_name.singular
+      name.singular
+    end
+
+    def commit_button_value
+      "Create #{name.human}"
     end
 
     private
@@ -43,6 +47,10 @@ module Semiformal
 
     def html_action
       controller.url_for(url)
+    end
+
+    def name
+      target.class.model_name
     end
   end
 end

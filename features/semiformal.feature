@@ -33,7 +33,9 @@ Feature: generate an application and run rake
       <%= form.inputs do -%>
         <%= form.input :title %>
       <% end -%>
-      <input type="submit" value="Create" />
+      <%= form.buttons do -%>
+        <%= form.commit_button %>
+      <% end -%>
     <% end -%>
     """
     When I route the "posts" resource
@@ -41,6 +43,6 @@ Feature: generate an application and run rake
     And I start the application
     And I visit /posts/new
     And I fill in "Title" with "example"
-    And I press "Create"
+    And I press "Create Post"
     Then I should see "example"
 
