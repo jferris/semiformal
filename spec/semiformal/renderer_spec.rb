@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'semiformal/form'
-require 'semiformal/form_renderer'
+require 'semiformal/renderer'
 require 'action_view/base'
 require 'action_view/template'
 
-describe Semiformal::FormRenderer do
+describe Semiformal::Renderer do
   let(:target) { Model.new }
   let(:controller) { Controller.new }
   let(:form) { Semiformal::Form.new(controller, target) }
@@ -14,7 +14,7 @@ describe Semiformal::FormRenderer do
     block.call(*args)
   end
 
-  subject { Semiformal::FormRenderer.new(self, form) }
+  subject { Semiformal::Renderer.new(self, form) }
 
   it "returns the form" do
     subject.form.should == form

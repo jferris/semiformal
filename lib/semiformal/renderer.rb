@@ -1,7 +1,7 @@
 require 'action_view'
 
 module Semiformal
-  class FormRenderer
+  class Renderer
     attr_reader :form
 
     def initialize(captureable, form)

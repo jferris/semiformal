@@ -19,7 +19,7 @@ describe Semiformal::ActionViewHelpers do
       <% end -%>
     }
 
-    rendered.should have_css("form .class_name:contains('FormRenderer')")
+    rendered.should have_css("form .class_name:contains('Renderer')")
     rendered.should have_css("form .form_object_id:contains('#{form.object_id}')")
   end
 end
