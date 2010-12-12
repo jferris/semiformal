@@ -4,8 +4,10 @@ require 'semiformal/attribute'
 describe Semiformal::Attribute do
   let(:prefix) { 'post' }
   let(:name) { 'title' }
+  let(:value) { 'any value' }
   subject { Semiformal::Attribute.new(:name   => name,
-                                      :prefix => prefix) }
+                                      :prefix => prefix,
+                                      :value => value) }
 
   it "has a name" do
     subject.name.should == name
@@ -17,5 +19,9 @@ describe Semiformal::Attribute do
 
   it "has an html id" do
     subject.html_id.should == "post_title"
+  end
+
+  it "has a string value" do
+    subject.string_value.should == value
   end
 end

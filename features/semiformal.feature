@@ -23,11 +23,25 @@ Feature: generate an application and run rake
       end
 
       def create
-        render :text => params[:post][:title].inspect
+        @post = Post.new(params[:post])
+        @post.save!
+        redirect_to [:edit, @post]
+      end
+
+      def edit
+        @post = Post.find(params[:id])
+        @form = Semiformal::Form.new(self, @post)
+        render
+      end
+
+      def update
+        @post = Post.find(params[:id])
+        @post.update_attributes!(params[:post])
+        redirect_to [:edit, @post]
       end
     end
     """
-    When I write to "app/views/posts/new.html.erb" with:
+    When I write to "app/views/posts/_form.html.erb" with:
     """
     <%= render_form @form do |form| -%>
       <%= form.inputs do -%>
@@ -38,11 +52,22 @@ Feature: generate an application and run rake
       <% end -%>
     <% end -%>
     """
+    When I write to "app/views/posts/new.html.erb" with:
+    """
+    <%= render :partial => 'form' %>
+    """
+    When I write to "app/views/posts/edit.html.erb" with:
+    """
+    <%= render :partial => 'form' %>
+    """
     When I route the "posts" resource
     When I successfully run "rake db:migrate db:test:prepare"
     And I start the application
     And I visit /posts/new
     And I fill in "Title" with "example"
     And I press "Create Post"
-    Then I should see "example"
+    Then the "Title" field should contain "example"
+    When I fill in "Title" with "changed"
+    And I press "Update Post"
+    Then the "Title" field should contain "changed"
 

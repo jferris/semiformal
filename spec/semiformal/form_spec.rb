@@ -2,7 +2,15 @@ require 'spec_helper'
 require 'semiformal/form'
 
 describe Semiformal::Form do
-  let(:target) { Model.new }
+  include ModelBuilder
+
+  let(:model_class) do
+    define_model('Post') do
+      attr_accessor :title
+    end
+  end
+
+  let(:target) { model_class.new }
   let(:controller) { Controller.new }
   let(:form) { Semiformal::Form.new(controller, target) }
   subject { form }
@@ -20,11 +28,37 @@ describe Semiformal::Form do
   end
 
   it "has a param name" do
-    subject.param_name.should == 'model'
+    subject.param_name.should == 'post'
   end
 
-  it "has a commit button value" do
-    subject.commit_button_value.should == "Create Model"
+  it "has a commit button value for a new record" do
+    target.persisted = false
+    subject.commit_button_value.should == "Create Post"
+  end
+
+  it "has a commit button value for a persisted record" do
+    target.persisted = true
+    subject.commit_button_value.should == "Update Post"
+  end
+
+  it "is persisted when its target is" do
+    target.persisted = true
+    subject.should be_persisted
+  end
+
+  it "isn't persisted when its target isn't" do
+    target.persisted = false
+    subject.should_not be_persisted
+  end
+
+  it "uses post for an unpersisted target" do
+    target.persisted = false
+    subject.method.should == 'post'
+  end
+
+  it "uses put for a persisted target" do
+    target.persisted = true
+    subject.method.should == 'put'
   end
 
   context "default attributes" do
@@ -54,6 +88,11 @@ describe Semiformal::Form do
     it "returns an attribute with that name" do
       should be_a(Semiformal::Attribute)
       subject.name.should == name
+    end
+
+    it "sets the value" do
+      target.title = "Hello"
+      subject.string_value.should == "Hello"
     end
   end
 end

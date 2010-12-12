@@ -11,7 +11,11 @@ module Semiformal
     end
 
     def render(&block)
-      contents = capture(self, &block)
+      method_input = tag(:input, :name  => '_method',
+                                 :type  => 'hidden',
+                                 :value => form.method)
+
+      contents = method_input + capture(self, &block)
       content_tag(:form, contents, form.default_attributes)
     end
 
@@ -31,9 +35,10 @@ module Semiformal
       attribute = form.attribute(name)
       html_id = attribute.html_id
       label = content_tag(:label, name.to_s.titleize, :for => html_id)
-      input = tag(:input, :type => 'text',
-                          :name => attribute.param_name,
-                          :id   => html_id)
+      input = tag(:input, :type  => 'text',
+                          :name  => attribute.param_name,
+                          :value => attribute.string_value,
+                          :id    => html_id)
       content_tag(:li, label + input)
     end
 

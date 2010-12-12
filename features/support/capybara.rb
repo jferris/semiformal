@@ -32,33 +32,50 @@ class Capybara::Driver::RailsServer < Capybara::Driver::Base
   end
 
   def submit(method, url, params)
-    path = URI.parse(url).path
-    send(method, path, params)
+    send(method, url, params)
   end
 
-  def get(path, params = {})
-    reset_url(path)
+  def get(url, params = {})
+    reset_url(url)
     query = Rack::Utils.build_nested_query(params)
-    path_with_query = [path, query].join('?')
+    path_with_query = [@current_path, query].join('?')
     @current_response = RailsServer.get(path_with_query)
+    follow_redirects
   end
 
-  def post(path, params = {})
-    reset_url(path)
+  def post(url, params = {})
+    reset_url(url)
     data = Rack::Utils.build_nested_query(params)
-    @current_response = RailsServer.post(path, data)
+    @current_response = RailsServer.post(@current_path, data)
+    follow_redirects
   end
 
   private
 
-  def reset_url(path)
-    @current_url = @base_url.merge(path)
+  def reset_url(url)
+    @current_path = URI.parse(url).path
+    @current_url = @base_url.merge(@current_path)
     @body = nil
     @html = nil
   end
 
   def html
     @html ||= Nokogiri::HTML.parse(body)
+  end
+
+  def follow_redirects
+    5.times do
+      follow_redirect if redirect?
+    end
+    raise Capybara::InfiniteRedirectError, "redirected more than 5 times, check for infinite redirects." if redirect?
+  end
+
+  def follow_redirect
+    get(@current_response["location"])
+  end
+
+  def redirect?
+    Net::HTTPRedirection === @current_response
   end
 end
 

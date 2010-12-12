@@ -8,6 +8,7 @@ module Semiformal
     def initialize(arguments)
       @name   = arguments[:name]
       @prefix = arguments[:prefix]
+      @value  = arguments[:value]
     end
 
     def param_name
@@ -16,6 +17,10 @@ module Semiformal
 
     def html_id
       "#{@prefix}_#{name}"
+    end
+
+    def string_value
+      @value.to_s
     end
   end
 end

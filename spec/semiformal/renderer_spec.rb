@@ -5,7 +5,15 @@ require 'action_view/base'
 require 'action_view/template'
 
 describe Semiformal::Renderer do
-  let(:target) { Model.new }
+  include ModelBuilder
+
+  let(:model_class) do
+    define_model('Post') do
+      attr_accessor :title
+    end
+  end
+
+  let(:target) { model_class.new }
   let(:controller) { Controller.new }
   let(:form) { Semiformal::Form.new(controller, target) }
   let(:buffer) {  ActionView::OutputBuffer.new }
@@ -23,8 +31,9 @@ describe Semiformal::Renderer do
   it "renders the given form" do
     rendered = subject.render { "<span>inner</span>".html_safe }
 
-    rendered.should have_css("form#new_model.model[action='/models'][method='post']")
+    rendered.should have_css("form#new_post.post[action='/posts'][method='post']")
     rendered.should have_css("span:contains('inner')")
+    rendered.should have_css("input[type=hidden][name=_method][value=#{form.method}]")
   end
 
   it "generates a list of inputs" do
@@ -36,8 +45,27 @@ describe Semiformal::Renderer do
   it "generates an input" do
     rendered = subject.input(:title)
 
-    rendered.should have_css("li input[type=text][name='model[title]'][id=model_title]")
-    rendered.should have_css("li label[for=model_title]:contains('Title')")
+    rendered.should have_css("li input[type=text][name='post[title]'][id=post_title]")
+    rendered.should have_css("li label[for=post_title]:contains('Title')")
+    rendered.should have_css("li input[type=text][name='post[title]'][id=post_title]")
+  end
+
+  it "generates an input with a nil value" do
+    target.title = nil
+    rendered = subject.input(:title)
+    rendered.should have_css("input[id=post_title][value='']")
+  end
+
+  it "generates an input with an empty value" do
+    target.title = ""
+    rendered = subject.input(:title)
+    rendered.should have_css("input[id=post_title][value='']")
+  end
+
+  it "generates an input with a value" do
+    target.title = "Hello"
+    rendered = subject.input(:title)
+    rendered.should have_css("input[id=post_title][value='Hello']")
   end
 
   it "generates a list of buttons" do
@@ -49,7 +77,7 @@ describe Semiformal::Renderer do
   it "generates a commit button" do
     rendered = subject.commit_button
 
-    rendered.should have_css("input[type=submit][name=commit][value='Create Model']")
+    rendered.should have_css("input[type=submit][name=commit][value='Create Post']")
   end
 end
 

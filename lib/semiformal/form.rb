@@ -24,7 +24,8 @@ module Semiformal
 
     def attribute(name)
       Attribute.new(:name   => name,
-                    :prefix => param_name)
+                    :prefix => param_name,
+                    :value  => target.send(name))
     end
 
     def html_id
@@ -36,7 +37,20 @@ module Semiformal
     end
 
     def commit_button_value
-      "Create #{name.human}"
+      commit_action = persisted? ? 'Update' : 'Create'
+      "#{commit_action} #{name.human}"
+    end
+
+    def persisted?
+      target.persisted?
+    end
+
+    def method
+      if persisted?
+        'put'
+      else
+        'post'
+      end
     end
 
     private
