@@ -33,16 +33,6 @@ describe Semiformal::Resource do
     subject.commit_button_value.should == "Update Post"
   end
 
-  it "is persisted when its target is" do
-    target.persisted = true
-    subject.should be_persisted
-  end
-
-  it "isn't persisted when its target isn't" do
-    target.persisted = false
-    subject.should_not be_persisted
-  end
-
   it "uses post for an unpersisted target" do
     target.persisted = false
     subject.method.should == 'post'

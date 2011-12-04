@@ -25,12 +25,8 @@ module Semiformal
     end
 
     def commit_button_value
-      commit_action = persisted? ? 'Update' : 'Create'
+      commit_action = method == "put" ? 'Update' : 'Create'
       "#{commit_action} #{name.humanize}"
-    end
-
-    def persisted?
-      target.persisted?
     end
 
     def method
@@ -46,6 +42,10 @@ module Semiformal
     end
 
     private
+
+    def persisted?
+      target.persisted?
+    end
 
     attr_reader :controller
 
