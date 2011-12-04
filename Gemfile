@@ -7,8 +7,6 @@ gem "rails", ">= 3.0.3"
 gem "nokogiri"
 gem "capybara"
 gem "launchy"
-gem "ruby-debug"
 gem "rack"
-gem "rcov"
 gem "reek"
 

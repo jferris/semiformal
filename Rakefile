@@ -8,7 +8,7 @@ require 'rspec/core/rake_task'
 require 'reek/rake/task'
 
 desc 'Default: run all tests and metrics'
-task :default => [:spec, :cucumber, :rcov, :reek]
+task :default => [:spec, :cucumber, :reek]
 
 Cucumber::Rake::Task.new(:cucumber) do |t|
   t.fork = true
@@ -16,14 +16,6 @@ Cucumber::Rake::Task.new(:cucumber) do |t|
 end
 
 RSpec::Core::RakeTask.new do |t|
-  t.pattern = "spec/**/*_spec.rb"
-  t.rspec_opts = "--format progress"
-end
-
-desc "Run rcov"
-RSpec::Core::RakeTask.new(:rcov) do |t|
-  t.rcov = true
-  t.rcov_opts = %{--exclude osx\/objc,spec,gems\/ --failure-threshold 100}
   t.pattern = "spec/**/*_spec.rb"
   t.rspec_opts = "--format progress"
 end

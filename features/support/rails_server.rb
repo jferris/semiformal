@@ -29,7 +29,7 @@ class RailsServer
 
   def self.run(port, silent)
     ENV['RAILS_ENV'] ||= 'test'
-    require 'config/environment'
+    require './config/environment'
     app = Identify.new(Rails.application)
     Thin::Logging.silent = silent
     Rack::Handler::Thin.run(app, :Port => port, :AccessLog => [])
