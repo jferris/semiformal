@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'semiformal/form'
+require 'semiformal/resource'
 
-describe Semiformal::Form do
+describe Semiformal::Resource do
   include ModelBuilder
 
   let(:model_class) do
@@ -12,8 +12,8 @@ describe Semiformal::Form do
 
   let(:target) { model_class.new }
   let(:controller) { Controller.new }
-  let(:form) { Semiformal::Form.new(controller, target) }
-  subject { form }
+  let(:resource) { Semiformal::Resource.new(controller, target) }
+  subject { resource }
 
   it "has a target" do
     subject.target.should == target
@@ -58,7 +58,7 @@ describe Semiformal::Form do
   end
 
   context "default attributes" do
-    subject { form.default_attributes }
+    subject { resource.default_attributes }
 
     it "sets the class" do
       subject['class'].should == controller.dom_class(target)
@@ -79,7 +79,7 @@ describe Semiformal::Form do
 
   context "attribute" do
     let(:name) { 'title' }
-    subject { form.attribute(name) }
+    subject { resource.attribute(name) }
 
     it "returns an attribute with that name" do
       should be_a(Semiformal::Attribute)

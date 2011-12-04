@@ -4,16 +4,16 @@ require 'semiformal/action_view_helpers'
 describe Semiformal::ActionViewHelpers do
   let(:target) { Model.new }
   let(:controller) { Controller.new }
-  let(:form) { Semiformal::Form.new(controller, target) }
+  let(:resource) { Semiformal::Resource.new(controller, target) }
 
   def render(template)
     view = ActionView::Base.new
-    view.render(:inline => template, :locals => { :form => form })
+    view.render(:inline => template, :locals => { :resource => resource })
   end
 
-  it "yields a renderer for the form and returns the result" do
+  it "yields a renderer for the resource and returns the result" do
     rendered = render %{
-      <%= render_form form do |form| -%>
+      <%= render_form resource do |form| -%>
         <span class="class_name"><%= form.class.name %></span>
         <%= form.input :object_id %>
       <% end -%>

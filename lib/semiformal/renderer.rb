@@ -1,11 +1,11 @@
 require 'action_view'
 
 module Semiformal
-  # Generates HTML for a Form.
+  # Generates HTML for a Resource.
   class Renderer
-    def initialize(captureable, form)
+    def initialize(captureable, resource)
       @captureable = captureable
-      @form = form
+      @resource = resource
     end
 
     def render(&block)
@@ -30,7 +30,7 @@ module Semiformal
     end
 
     def input(name)
-      attribute = form.attribute(name)
+      attribute = resource.attribute(name)
       html_id = attribute.html_id
       label = content_tag(:label, name.to_s.titleize, :for => html_id)
       input = tag(:input, :type  => 'text',
@@ -41,23 +41,23 @@ module Semiformal
     end
 
     def commit_button
-      tag(:input, :type => 'submit', :name => 'commit', :value => form.commit_button_value)
+      tag(:input, :type => 'submit', :name => 'commit', :value => resource.commit_button_value)
     end
 
     private
 
-    attr_reader :form
+    attr_reader :resource
 
     def capture(*args, &block)
       @captureable.capture(*args, &block)
     end
 
     def form_method
-      form.method
+      resource.method
     end
 
     def default_form_attributes
-      form.default_attributes
+      resource.default_attributes
     end
 
     include ActionView::Helpers::TagHelper

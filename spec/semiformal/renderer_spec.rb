@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'semiformal/form'
+require 'semiformal/resource'
 require 'semiformal/renderer'
 require 'action_view/base'
 require 'action_view/template'
@@ -15,21 +15,21 @@ describe Semiformal::Renderer do
 
   let(:target) { model_class.new }
   let(:controller) { Controller.new }
-  let(:form) { Semiformal::Form.new(controller, target) }
+  let(:resource) { Semiformal::Resource.new(controller, target) }
   let(:buffer) {  ActionView::OutputBuffer.new }
 
   def capture(*args, &block)
     block.call(*args)
   end
 
-  subject { Semiformal::Renderer.new(self, form) }
+  subject { Semiformal::Renderer.new(self, resource) }
 
-  it "renders the given form" do
+  it "renders the given resource" do
     rendered = subject.render { "<span>inner</span>".html_safe }
 
     rendered.should have_css("form#new_post.post[action='/posts'][method='post']")
     rendered.should have_css("span:contains('inner')")
-    rendered.should have_css("input[type=hidden][name=_method][value=#{form.method}]")
+    rendered.should have_css("input[type=hidden][name=_method][value=#{resource.method}]")
   end
 
   it "generates a list of inputs" do

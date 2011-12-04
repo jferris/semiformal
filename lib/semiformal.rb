@@ -1,4 +1,4 @@
 require 'semiformal/version'
-require 'semiformal/form'
+require 'semiformal/resource'
 require 'semiformal/action_view_helpers'
 

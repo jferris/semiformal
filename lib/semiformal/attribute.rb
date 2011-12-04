@@ -1,7 +1,7 @@
 module Semiformal
-  # An attribute for a form.
+  # An attribute for a resource.
   #
-  # Generates default html attributes for a given form attribute.
+  # Generates default html attributes for a given resource attribute.
   class Attribute
     attr_reader :name
 

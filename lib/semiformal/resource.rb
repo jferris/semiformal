@@ -2,8 +2,8 @@ require 'semiformal/attribute'
 
 module Semiformal
   # Defines accepted parameters, conversions, and generated attribute names for
-  # an html form.
-  class Form
+  # an HTTP resource.
+  class Resource
     attr_reader :controller, :target
 
     def initialize(controller, target)

@@ -18,7 +18,7 @@ Feature: generate an application and run rake
     class PostsController < ApplicationController
       def new
         @post = Post.new
-        @form = Semiformal::Form.new(self, @post)
+        @resource = Semiformal::Resource.new(self, @post)
         render
       end
 
@@ -30,7 +30,7 @@ Feature: generate an application and run rake
 
       def edit
         @post = Post.find(params[:id])
-        @form = Semiformal::Form.new(self, @post)
+        @resource = Semiformal::Resource.new(self, @post)
         render
       end
 
@@ -43,7 +43,7 @@ Feature: generate an application and run rake
     """
     When I write to "app/views/posts/_form.html.erb" with:
     """
-    <%= render_form @form do |form| -%>
+    <%= render_form @resource do |form| -%>
       <%= form.inputs do -%>
         <%= form.input :title %>
       <% end -%>
