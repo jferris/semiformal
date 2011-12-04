@@ -3,8 +3,6 @@ require 'action_view'
 module Semiformal
   # Generates HTML for a Form.
   class Renderer
-    attr_reader :form
-
     def initialize(captureable, form)
       @captureable = captureable
       @form = form
@@ -47,6 +45,8 @@ module Semiformal
     end
 
     private
+
+    attr_reader :form
 
     def capture(*args, &block)
       @captureable.capture(*args, &block)

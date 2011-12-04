@@ -15,12 +15,12 @@ describe Semiformal::ActionViewHelpers do
     rendered = render %{
       <%= render_form form do |form| -%>
         <span class="class_name"><%= form.class.name %></span>
-        <span class="form_object_id"><%= form.form.object_id %></span>
+        <%= form.input :object_id %>
       <% end -%>
     }
 
     rendered.should have_css("form .class_name:contains('Renderer')")
-    rendered.should have_css("form .form_object_id:contains('#{form.object_id}')")
+    rendered.should have_css("form input[value='#{target.object_id}']")
   end
 end
 

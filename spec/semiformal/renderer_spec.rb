@@ -24,10 +24,6 @@ describe Semiformal::Renderer do
 
   subject { Semiformal::Renderer.new(self, form) }
 
-  it "returns the form" do
-    subject.form.should == form
-  end
-
   it "renders the given form" do
     rendered = subject.render { "<span>inner</span>".html_safe }
 
