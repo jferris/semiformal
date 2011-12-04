@@ -20,7 +20,7 @@ describe Semiformal::Form do
   end
 
   it "uses the target as the default url" do
-    subject.url.should == target
+    subject.url.should == controller.url_for(target)
   end
 
   it "has an html id" do
@@ -73,7 +73,7 @@ describe Semiformal::Form do
     end
 
     it "sets the action" do
-      subject['action'].should == controller.url_for(form.url)
+      subject['action'].should == controller.url_for(target)
     end
 
     it "sets the method" do

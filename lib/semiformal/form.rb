@@ -11,14 +11,10 @@ module Semiformal
       @target = target
     end
 
-    def url
-      target
-    end
-
     def default_attributes
       { 'class'  => html_class,
         'id'     => html_id,
-        'action' => html_action,
+        'action' => url,
         'method' => 'post' }
     end
 
@@ -53,14 +49,14 @@ module Semiformal
       end
     end
 
+    def url
+      controller.url_for(target)
+    end
+
     private
 
     def html_class
       controller.dom_class(target)
-    end
-
-    def html_action
-      controller.url_for(url)
     end
 
     def name
