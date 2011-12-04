@@ -4,7 +4,7 @@ module Semiformal
   # Defines accepted parameters, conversions, and generated input names for
   # an HTTP resource.
   class Resource
-    attr_reader :controller, :target
+    attr_reader :target
 
     def initialize(controller, target)
       @controller = controller
@@ -46,6 +46,8 @@ module Semiformal
     end
 
     private
+
+    attr_reader :controller
 
     def param_name
       name.singular
