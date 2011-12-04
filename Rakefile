@@ -1,10 +1,6 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'rake'
-require 'date'
-require 'rake/gempackagetask'
-require 'cucumber/rake/task'
+require "bundler/gem_tasks"
 require 'rspec/core/rake_task'
+require 'cucumber/rake/task'
 require 'reek/rake/task'
 
 desc 'Default: run all tests and metrics'
@@ -24,10 +20,3 @@ Reek::Rake::Task.new do |t|
   t.fail_on_error = true
   t.reek_opts = '-q'
 end
-
-eval("$specification = begin; #{IO.read('semiformal.gemspec')}; end")
-Rake::GemPackageTask.new($specification) do |package|
-  package.need_zip = true
-  package.need_tar = true
-end
-
