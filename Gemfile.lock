@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    semiformal (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -141,3 +146,4 @@ DEPENDENCIES
   rake
   reek
   rspec
+  semiformal!

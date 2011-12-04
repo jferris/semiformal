@@ -1,24 +1,32 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "semiformal/version"
+
 Gem::Specification.new do |s|
   s.name        = %q{semiformal}
-  s.version     = '0.1'
+  s.version     = Semiformal::VERSION.dup
+  s.authors     = ["Joe Ferris"]
+  s.email       = %q{jferris@thoughtbot.com}
+  s.homepage    = "http://github.com/jferris/semiformal"
   s.summary     = %q{blah blah blah}
   s.description = %q{BLAH BLAH BLAH}
 
-  s.files        = Dir['[A-Z]*',
-                       'lib/**/*.rb',
-                       'features/**/*',
-                       'bin/**/*',
-                       'spec/**/*.rb']
-  s.require_path = 'lib'
-  s.test_files   = Dir['features/**/*']
+  s.rubyforge_project = "semiformal"
 
-  s.has_rdoc = false
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ["lib"]
 
-  s.authors = ["Joe Ferris"]
-  s.email   = %q{jferris@thoughtbot.com}
-  s.homepage = "http://github.com/jferris/semiformal"
-
-  s.platform = Gem::Platform::RUBY
-  s.rubygems_version = %q{1.2.0}
+  s.add_development_dependency "cucumber"
+  s.add_development_dependency "aruba"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "rails", ">= 3.0.3"
+  s.add_development_dependency "nokogiri"
+  s.add_development_dependency "capybara"
+  s.add_development_dependency "launchy"
+  s.add_development_dependency "rack"
+  s.add_development_dependency "reek"
 end
 
