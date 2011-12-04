@@ -1,7 +1,7 @@
-require 'semiformal/attribute'
+require 'semiformal/input'
 
 module Semiformal
-  # Defines accepted parameters, conversions, and generated attribute names for
+  # Defines accepted parameters, conversions, and generated input names for
   # an HTTP resource.
   class Resource
     attr_reader :controller, :target
@@ -18,10 +18,10 @@ module Semiformal
         'method' => 'post' }
     end
 
-    def attribute(name)
-      Attribute.new(:name   => name,
-                    :prefix => param_name,
-                    :value  => target.send(name))
+    def input(name)
+      Input.new(:name   => name,
+                :prefix => param_name,
+                :value  => target.send(name))
     end
 
     def param_name

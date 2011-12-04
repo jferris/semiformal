@@ -1,8 +1,8 @@
 module Semiformal
-  # An attribute for a resource.
+  # An input for a resource.
   #
-  # Generates default html attributes for a given resource attribute.
-  class Attribute
+  # Generates default html attributes for a given resource input.
+  class Input
     attr_reader :name
 
     def initialize(arguments)

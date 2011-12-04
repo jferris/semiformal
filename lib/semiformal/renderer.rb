@@ -30,14 +30,14 @@ module Semiformal
     end
 
     def input(name)
-      attribute = resource.attribute(name)
-      html_id = attribute.html_id
+      input = resource.input(name)
+      html_id = input.html_id
       label = content_tag(:label, name.to_s.titleize, :for => html_id)
-      input = tag(:input, :type  => 'text',
-                          :name  => attribute.param_name,
-                          :value => attribute.string_value,
-                          :id    => html_id)
-      content_tag(:li, label + input)
+      input_html = tag(:input, :type  => 'text',
+                               :name  => input.param_name,
+                               :value => input.string_value,
+                               :id    => html_id)
+      content_tag(:li, label + input_html)
     end
 
     def commit_button

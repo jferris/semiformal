@@ -77,12 +77,12 @@ describe Semiformal::Resource do
     end
   end
 
-  context "attribute" do
+  context "input" do
     let(:name) { 'title' }
-    subject { resource.attribute(name) }
+    subject { resource.input(name) }
 
-    it "returns an attribute with that name" do
-      should be_a(Semiformal::Attribute)
+    it "returns an input with that name" do
+      should be_a(Semiformal::Input)
       subject.name.should == name
     end
 

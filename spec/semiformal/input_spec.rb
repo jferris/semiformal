@@ -1,13 +1,13 @@
 require 'spec_helper'
-require 'semiformal/attribute'
+require 'semiformal/input'
 
-describe Semiformal::Attribute do
+describe Semiformal::Input do
   let(:prefix) { 'post' }
   let(:name) { 'title' }
   let(:value) { 'any value' }
-  subject { Semiformal::Attribute.new(:name   => name,
-                                      :prefix => prefix,
-                                      :value => value) }
+  subject { Semiformal::Input.new(:name   => name,
+                                  :prefix => prefix,
+                                  :value  => value) }
 
   it "has a name" do
     subject.name.should == name
