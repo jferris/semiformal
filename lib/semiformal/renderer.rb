@@ -13,10 +13,10 @@ module Semiformal
     def render(&block)
       method_input = tag(:input, :name  => '_method',
                                  :type  => 'hidden',
-                                 :value => form.method)
+                                 :value => form_method)
 
       contents = method_input + capture(self, &block)
-      content_tag(:form, contents, form.default_attributes)
+      content_tag(:form, contents, default_form_attributes)
     end
 
     def inputs(&block)
@@ -50,6 +50,14 @@ module Semiformal
 
     def capture(*args, &block)
       @captureable.capture(*args, &block)
+    end
+
+    def form_method
+      form.method
+    end
+
+    def default_form_attributes
+      form.default_attributes
     end
 
     include ActionView::Helpers::TagHelper
