@@ -12,21 +12,21 @@ module Semiformal
     end
 
     def default_attributes
-      { 'class'  => html_class,
+      { 'class'  => name,
         'id'     => html_id,
         'action' => url,
         'method' => 'post' }
     end
 
-    def input(name)
-      Input.new(:name   => name,
-                :prefix => param_name,
-                :value  => target.send(name))
+    def input(input_name)
+      Input.new(:name   => input_name,
+                :prefix => name,
+                :value  => target.send(input_name))
     end
 
     def commit_button_value
       commit_action = persisted? ? 'Update' : 'Create'
-      "#{commit_action} #{name.human}"
+      "#{commit_action} #{name.humanize}"
     end
 
     def persisted?
@@ -49,20 +49,12 @@ module Semiformal
 
     attr_reader :controller
 
-    def param_name
-      name.singular
+    def name
+      target.class.model_name.singular
     end
 
     def html_id
       controller.dom_id(target)
-    end
-
-    def html_class
-      controller.dom_class(target)
-    end
-
-    def name
-      target.class.model_name
     end
   end
 end
