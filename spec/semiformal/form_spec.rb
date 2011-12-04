@@ -23,10 +23,6 @@ describe Semiformal::Form do
     subject.url.should == controller.url_for(target)
   end
 
-  it "has an html id" do
-    subject.html_id.should == controller.dom_id(target)
-  end
-
   it "has a param name" do
     subject.param_name.should == 'post'
   end
@@ -69,7 +65,7 @@ describe Semiformal::Form do
     end
 
     it "sets the id" do
-      subject['id'].should == form.html_id
+      subject['id'].should == controller.dom_id(target)
     end
 
     it "sets the action" do

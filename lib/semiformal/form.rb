@@ -24,10 +24,6 @@ module Semiformal
                     :value  => target.send(name))
     end
 
-    def html_id
-      controller.dom_id(target)
-    end
-
     def param_name
       name.singular
     end
@@ -54,6 +50,10 @@ module Semiformal
     end
 
     private
+
+    def html_id
+      controller.dom_id(target)
+    end
 
     def html_class
       controller.dom_class(target)
