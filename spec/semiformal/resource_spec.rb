@@ -23,10 +23,6 @@ describe Semiformal::Resource do
     subject.url.should == controller.url_for(target)
   end
 
-  it "has a param name" do
-    subject.param_name.should == 'post'
-  end
-
   it "has a commit button value for a new record" do
     target.persisted = false
     subject.commit_button_value.should == "Create Post"
@@ -84,6 +80,10 @@ describe Semiformal::Resource do
     it "returns an input with that name" do
       should be_a(Semiformal::Input)
       subject.name.should == name
+    end
+
+    it "prefixes input names" do
+      subject.param_name.should == 'post[title]'
     end
 
     it "sets the value" do

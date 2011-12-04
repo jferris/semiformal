@@ -24,10 +24,6 @@ module Semiformal
                 :value  => target.send(name))
     end
 
-    def param_name
-      name.singular
-    end
-
     def commit_button_value
       commit_action = persisted? ? 'Update' : 'Create'
       "#{commit_action} #{name.human}"
@@ -50,6 +46,10 @@ module Semiformal
     end
 
     private
+
+    def param_name
+      name.singular
+    end
 
     def html_id
       controller.dom_id(target)
