@@ -1,11 +1,12 @@
 require 'action_view'
-require 'semiformal/resource'
 require 'semiformal/renderer'
+require 'semiformal/form'
 
 module Semiformal
   module ActionViewHelpers
     def render_form(resource, &block)
-      Renderer.new(self, resource).render(&block)
+      form = Form.new(resource)
+      Renderer.new(self, form).render(&block)
     end
   end
 end

@@ -22,5 +22,13 @@ module Semiformal
     def string_value
       @value.to_s
     end
+
+    def ==(other)
+      value == other.value && name == other.name && prefix == other.prefix
+    end
+
+    protected
+
+    attr_reader :value, :prefix
   end
 end

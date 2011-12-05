@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'semiformal/action_view_helpers'
+require 'semiformal/resource'
 
 describe Semiformal::ActionViewHelpers do
   let(:target) { Model.new }

@@ -7,6 +7,7 @@ describe Semiformal::Resource do
   let(:model_class) do
     define_model('Post') do
       attr_accessor :title
+      attr_accessor :to_key
     end
   end
 
@@ -15,22 +16,21 @@ describe Semiformal::Resource do
   let(:resource) { Semiformal::Resource.new(controller, target) }
   subject { resource }
 
+  it "has a #name" do
+    subject.name.should == "post"
+  end
+
+  it "delegates #to_key" do
+    target.to_key = "expected"
+    resource.to_key.should == "expected"
+  end
+
   it "has a target" do
     subject.target.should == target
   end
 
   it "uses the target as the default url" do
     subject.url.should == controller.url_for(target)
-  end
-
-  it "has a commit button value for a new record" do
-    target.persisted = false
-    subject.commit_button_value.should == "Create Post"
-  end
-
-  it "has a commit button value for a persisted record" do
-    target.persisted = true
-    subject.commit_button_value.should == "Update Post"
   end
 
   it "uses post for an unpersisted target" do
@@ -41,26 +41,6 @@ describe Semiformal::Resource do
   it "uses put for a persisted target" do
     target.persisted = true
     subject.method.should == 'put'
-  end
-
-  context "default attributes" do
-    subject { resource.default_attributes }
-
-    it "sets the class" do
-      subject['class'].should == controller.dom_class(target)
-    end
-
-    it "sets the id" do
-      subject['id'].should == controller.dom_id(target)
-    end
-
-    it "sets the action" do
-      subject['action'].should == controller.url_for(target)
-    end
-
-    it "sets the method" do
-      subject['method'].should == "post"
-    end
   end
 
   context "input" do

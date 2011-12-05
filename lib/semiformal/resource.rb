@@ -11,22 +11,10 @@ module Semiformal
       @target = target
     end
 
-    def default_attributes
-      { 'class'  => name,
-        'id'     => html_id,
-        'action' => url,
-        'method' => 'post' }
-    end
-
     def input(input_name)
       Input.new(:name   => input_name,
                 :prefix => name,
                 :value  => target.send(input_name))
-    end
-
-    def commit_button_value
-      commit_action = method == "put" ? 'Update' : 'Create'
-      "#{commit_action} #{name.humanize}"
     end
 
     def method
@@ -41,6 +29,14 @@ module Semiformal
       controller.url_for(target)
     end
 
+    def name
+      target.class.model_name.singular
+    end
+
+    def to_key
+      target.to_key
+    end
+
     private
 
     def persisted?
@@ -48,14 +44,6 @@ module Semiformal
     end
 
     attr_reader :controller
-
-    def name
-      target.class.model_name.singular
-    end
-
-    def html_id
-      controller.dom_id(target)
-    end
   end
 end
 

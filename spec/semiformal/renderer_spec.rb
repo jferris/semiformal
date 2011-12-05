@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'semiformal/resource'
+require 'semiformal/form'
 require 'semiformal/renderer'
 require 'action_view/base'
 require 'action_view/template'
@@ -16,15 +17,16 @@ describe Semiformal::Renderer do
   let(:target) { model_class.new }
   let(:controller) { Controller.new }
   let(:resource) { Semiformal::Resource.new(controller, target) }
+  let(:form) { Semiformal::Form.new(resource) }
   let(:buffer) {  ActionView::OutputBuffer.new }
 
   def capture(*args, &block)
     block.call(*args)
   end
 
-  subject { Semiformal::Renderer.new(self, resource) }
+  subject { Semiformal::Renderer.new(self, form) }
 
-  it "renders the given resource" do
+  it "renders the given form" do
     rendered = subject.render { "<span>inner</span>".html_safe }
 
     rendered.should have_css("form#new_post.post[action='/posts'][method='post']")
