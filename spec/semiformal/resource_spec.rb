@@ -25,10 +25,6 @@ describe Semiformal::Resource do
     resource.to_key.should == "expected"
   end
 
-  it "has a target" do
-    subject.target.should == target
-  end
-
   it "uses the target as the default url" do
     subject.url.should == controller.url_for(target)
   end
