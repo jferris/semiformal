@@ -14,8 +14,8 @@ describe Semiformal::Input do
     build_input(:prefix => "user", :name => "address").html_id.should == "user_address"
   end
 
-  it "has a #string_value" do
-    build_input(:value => 10).string_value.should == "10"
+  it "has a #to_s" do
+    build_input(:value => 10).to_s.should == "10"
   end
 
   it "is #== with the same name, prefix, and value" do

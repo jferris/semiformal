@@ -1,4 +1,5 @@
 require 'semiformal/input'
+require 'semiformal/text_value'
 
 module Semiformal
   # Defines accepted parameters, conversions, and generated input names for
@@ -32,7 +33,7 @@ module Semiformal
     def input(input_name)
       Input.new(:name   => input_name,
                 :prefix => name,
-                :value  => target.send(input_name))
+                :value  => TextValue.new(target.send(input_name)))
     end
 
     private

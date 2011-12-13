@@ -54,7 +54,7 @@ describe Semiformal::Resource do
 
     it "sets the value" do
       target.title = "Hello"
-      subject.string_value.should == "Hello"
+      subject.to_s.should == "Hello"
     end
   end
 end

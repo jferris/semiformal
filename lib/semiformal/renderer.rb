@@ -35,7 +35,7 @@ module Semiformal
       label = content_tag(:label, name.to_s.titleize, :for => html_id)
       input_html = tag(:input, :type  => 'text',
                                :name  => input.param_name,
-                               :value => input.string_value,
+                               :value => input.to_s,
                                :id    => html_id)
       content_tag(:li, label + input_html)
     end

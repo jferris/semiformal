@@ -19,7 +19,7 @@ module Semiformal
       "#{@prefix}_#{name}"
     end
 
-    def string_value
+    def to_s
       @value.to_s
     end
 
