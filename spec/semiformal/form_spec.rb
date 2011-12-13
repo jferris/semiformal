@@ -47,6 +47,14 @@ describe Semiformal::Form do
     form_for(:url => "/happy_time").url.should == "/happy_time"
   end
 
+  it "delegates #to_key to the resource" do
+    form_for(:to_key => ["happy"]).to_key.should == ["happy"]
+  end
+
+  it "delegates #name to the resource" do
+    form_for(:name => "happy").name.should == "happy"
+  end
+
   def form_for(attributes = {})
     Semiformal::Form.new(stub_resource(attributes))
   end

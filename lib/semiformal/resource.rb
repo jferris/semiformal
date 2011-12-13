@@ -9,12 +9,6 @@ module Semiformal
       @target = target
     end
 
-    def input(input_name)
-      Input.new(:name   => input_name,
-                :prefix => name,
-                :value  => target.send(input_name))
-    end
-
     def method
       if persisted?
         'put'
@@ -33,6 +27,12 @@ module Semiformal
 
     def to_key
       target.to_key
+    end
+
+    def input(input_name)
+      Input.new(:name   => input_name,
+                :prefix => name,
+                :value  => target.send(input_name))
     end
 
     private

@@ -6,10 +6,6 @@ module Semiformal
       @resource = resource
     end
 
-    def commit_button_value
-      "#{action} #{title}"
-    end
-
     def method
       @resource.method
     end
@@ -18,8 +14,20 @@ module Semiformal
       @resource.url
     end
 
+    def name
+      @resource.name
+    end
+
+    def to_key
+      @resource.to_key
+    end
+
     def input(name)
       @resource.input(name)
+    end
+
+    def commit_button_value
+      "#{action} #{title}"
     end
 
     def default_attributes
@@ -43,10 +51,6 @@ module Semiformal
       name.titleize
     end
 
-    def name
-      @resource.name
-    end
-
     def id
       if post?
         new_id
@@ -61,10 +65,6 @@ module Semiformal
 
     def persisted_id
       (["edit", name] + to_key).join("_")
-    end
-
-    def to_key
-      @resource.to_key
     end
 
     def post?
