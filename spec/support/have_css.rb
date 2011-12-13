@@ -1,6 +1,6 @@
 require 'capybara'
 
-Rspec::Matchers.define :have_css do |selector|
+RSpec::Matchers.define :have_css do |selector|
   match do |html|
     @html = html
     app = lambda { |env| [200, { 'Content-Type' => 'html' }, [html]] }
