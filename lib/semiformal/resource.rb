@@ -5,8 +5,7 @@ module Semiformal
   # Defines accepted parameters, conversions, and generated input names for
   # an HTTP resource.
   class Resource
-    def initialize(controller, model)
-      @controller = controller
+    def initialize(model)
       @model = model
     end
 
@@ -18,8 +17,8 @@ module Semiformal
       end
     end
 
-    def url
-      controller.url_for(model)
+    def url_target
+      model
     end
 
     def name
@@ -42,7 +41,7 @@ module Semiformal
       model.persisted?
     end
 
-    attr_reader :controller, :model
+    attr_reader :model
   end
 end
 

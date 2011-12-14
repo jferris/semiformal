@@ -3,12 +3,16 @@ require 'semiformal/action_view_helpers'
 require 'semiformal/resource'
 
 describe Semiformal::ActionViewHelpers do
-  let(:target) { Model.new }
-  let(:controller) { Controller.new }
-  let(:resource) { Semiformal::Resource.new(controller, target) }
+  include ModelBuilder
+
+  let(:target) { define_model("Post").new }
+  let(:resource) { Semiformal::Resource.new(target) }
 
   def render(template)
     view = ActionView::Base.new
+    def view.posts_path
+      "/posts"
+    end
     view.render(:inline => template, :locals => { :resource => resource })
   end
 

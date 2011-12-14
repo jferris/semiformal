@@ -12,8 +12,7 @@ describe Semiformal::Resource do
   end
 
   let(:model) { model_class.new }
-  let(:controller) { Controller.new }
-  let(:resource) { Semiformal::Resource.new(controller, model) }
+  let(:resource) { Semiformal::Resource.new(model) }
   subject { resource }
 
   it "has a #name" do
@@ -25,17 +24,17 @@ describe Semiformal::Resource do
     resource.to_key.should == "expected"
   end
 
-  it "uses the model as the default url" do
-    subject.url.should == controller.url_for(model)
+  it "uses the model as the default #url_target" do
+    subject.url_target.should == model
   end
 
   it "uses post for an unpersisted model" do
-    model.persisted = false
+    model.unpersist
     subject.method.should == 'post'
   end
 
   it "uses put for a persisted model" do
-    model.persisted = true
+    model.persist
     subject.method.should == 'put'
   end
 

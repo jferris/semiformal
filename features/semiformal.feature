@@ -18,7 +18,7 @@ Feature: generate an application and run rake
     class PostsController < ApplicationController
       def new
         @post = Post.new
-        @resource = Semiformal::Resource.new(self, @post)
+        @resource = Semiformal::Resource.new(@post)
         render
       end
 
@@ -30,7 +30,7 @@ Feature: generate an application and run rake
 
       def edit
         @post = Post.find(params[:id])
-        @resource = Semiformal::Resource.new(self, @post)
+        @resource = Semiformal::Resource.new(@post)
         render
       end
 

@@ -16,8 +16,8 @@ describe Semiformal::Renderer do
 
   let(:target) { model_class.new }
   let(:controller) { Controller.new }
-  let(:resource) { Semiformal::Resource.new(controller, target) }
-  let(:form) { Semiformal::Form.new(resource) }
+  let(:resource) { Semiformal::Resource.new(target) }
+  let(:form) { Semiformal::Form.new(controller, resource) }
   let(:buffer) {  ActionView::OutputBuffer.new }
 
   def capture(*args, &block)

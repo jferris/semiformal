@@ -1,4 +1,5 @@
 module Semiformal
+  # Converts parameter and resource values to text.
   class TextValue
     def initialize(value)
       @value = value

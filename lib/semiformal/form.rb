@@ -2,7 +2,8 @@ module Semiformal
   # Decorates a Resource to provide default HTML attributes and button values
   # for an HTML form.
   class Form
-    def initialize(resource)
+    def initialize(router, resource)
+      @router = router
       @resource = resource
     end
 
@@ -10,8 +11,8 @@ module Semiformal
       @resource.method
     end
 
-    def url
-      @resource.url
+    def url_target
+      @resource.url_target
     end
 
     def name
@@ -24,6 +25,10 @@ module Semiformal
 
     def input(name)
       @resource.input(name)
+    end
+
+    def url
+      @router.url_for(@resource.url_target)
     end
 
     def commit_button_value

@@ -4,8 +4,29 @@ class Model
   extend ActiveModel::Naming
   include ActiveModel::Conversion
 
-  attr_accessor :persisted
-  alias_method :persisted?, :persisted
+  def initialize(id = nil)
+    @id = id
+  end
+
+  def persisted?
+    @id.present?
+  end
+
+  def persist
+    @id = 1
+  end
+
+  def unpersist
+    @id = nil
+  end
+
+  def to_key
+    if persisted?
+      [@id]
+    else
+      nil
+    end
+  end
 end
 
 module ModelBuilder
