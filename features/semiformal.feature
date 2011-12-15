@@ -18,7 +18,7 @@ Feature: generate an application and run rake
     class PostsController < ApplicationController
       def new
         @post = Post.new
-        @resource = Semiformal::Resource.new(@post)
+        assign_resource
         render
       end
 
@@ -30,7 +30,7 @@ Feature: generate an application and run rake
 
       def edit
         @post = Post.find(params[:id])
-        @resource = Semiformal::Resource.new(@post)
+        assign_resource
         render
       end
 
@@ -38,6 +38,10 @@ Feature: generate an application and run rake
         @post = Post.find(params[:id])
         @post.update_attributes!(params[:post])
         redirect_to [:edit, @post]
+      end
+
+      def assign_resource
+        @resource = Semiformal::Resource.new(@post).accept(:title)
       end
     end
     """
