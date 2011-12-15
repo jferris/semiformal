@@ -48,6 +48,7 @@ describe Semiformal::Form do
       attr_reader :name
     end
     resource = Semiformal::Resource.new(model.new)
+    resource.accept(:name)
     form = Semiformal::Form.new(Controller.new, resource)
     result = form.input(:name)
     result.should == resource.input(:name)

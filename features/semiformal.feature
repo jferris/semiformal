@@ -23,7 +23,8 @@ Feature: generate an application and run rake
       end
 
       def create
-        @post = Post.new(params[:post])
+        assign_resource
+        @post = Post.new(resource_params)
         @post.save!
         redirect_to [:edit, @post]
       end
@@ -35,13 +36,19 @@ Feature: generate an application and run rake
       end
 
       def update
+        assign_resource
         @post = Post.find(params[:id])
-        @post.update_attributes!(params[:post])
+        @post.update_attributes!(resource_params)
         redirect_to [:edit, @post]
       end
 
       def assign_resource
-        @resource = Semiformal::Resource.new(@post).accept(:title)
+        @resource = Semiformal::Resource.new(@post)
+        @resource.accept(:title)
+      end
+
+      def resource_params
+        @resource.parse(params[:post])
       end
     end
     """

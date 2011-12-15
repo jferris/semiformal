@@ -9,6 +9,7 @@ describe Semiformal::ActionViewHelpers do
   let(:resource) { Semiformal::Resource.new(target) }
 
   def render(template)
+    resource.accept :object_id
     view = ActionView::Base.new
     def view.posts_path
       "/posts"

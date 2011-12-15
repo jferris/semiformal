@@ -20,6 +20,8 @@ describe Semiformal::Renderer do
   let(:form) { Semiformal::Form.new(controller, resource) }
   let(:buffer) {  ActionView::OutputBuffer.new }
 
+  before { resource.accept(:title) }
+
   def capture(*args, &block)
     block.call(*args)
   end

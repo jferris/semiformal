@@ -1,5 +1,6 @@
 require 'semiformal/input'
 require 'semiformal/text_value'
+require 'semiformal/unacceptable_input'
 
 module Semiformal
   # Defines accepted parameters, conversions, and generated input names for
@@ -7,6 +8,7 @@ module Semiformal
   class Resource
     def initialize(model)
       @model = model
+      @inputs = []
     end
 
     def method
@@ -30,9 +32,27 @@ module Semiformal
     end
 
     def input(input_name)
+      ensure_acceptable(input_name)
       Input.new(:name   => input_name,
                 :prefix => name,
                 :value  => TextValue.new(model.send(input_name)))
+    end
+
+    def accept(name)
+      @inputs << name.to_sym
+    end
+
+    def parse(params)
+      params.inject({}) do |result, (name, value)|
+        ensure_acceptable(name)
+        result.update(name => value.to_s)
+      end
+    end
+
+    def ensure_acceptable(name)
+      unless @inputs.include?(name.to_sym)
+        raise UnacceptableInput, "no such input: #{name}"
+      end
     end
 
     private
