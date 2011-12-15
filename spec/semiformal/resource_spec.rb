@@ -41,12 +41,11 @@ describe Semiformal::Resource do
   end
 
   it "returns an #input it should #accept" do
-    resource = build_resource do
+    resource = build_resource {
       def title
         "example"
       end
-    end
-    resource.accept(:title)
+    }.accept(:title)
     input = resource.input(:title)
     input.should be_a(Semiformal::Input)
     input.name.should == :title
@@ -55,33 +54,35 @@ describe Semiformal::Resource do
   end
 
   it "won't generate an #input it shouldn't #accept" do
-    resource = build_resource
-    resource.accept(:title)
+    resource = build_resource.accept(:title)
     expect { resource.input(:name) }.to raise_error(Semiformal::UnacceptableInput, /name/)
   end
 
   it "can #parse a string parameter that it should #accept" do
-    resource = build_resource
-    resource.accept(:title)
+    resource = build_resource.accept(:title)
     resource.parse(:title => :hello).should == { :title => "hello" }
   end
 
   it "will #parse the string key for a parameter it should #accept" do
-    resource = build_resource
-    resource.accept(:title)
+    resource = build_resource.accept(:title)
     resource.parse("title" => :hello).should == { "title" => "hello" }
   end
 
   it "will #parse a symbolic key for a parameter specified with a string name" do
-    resource = build_resource
-    resource.accept("title")
+    resource = build_resource.accept("title")
     resource.parse(:title => :hello).should == { :title => "hello" }
   end
 
   it "won't #parse a string parameter that it shouldn't #accept" do
-    resource = build_resource
-    resource.accept(:name)
+    resource = build_resource.accept(:name)
     expect { resource.parse(:title => "hello") }.to raise_error(Semiformal::UnacceptableInput, /title/)
+  end
+
+  it "doesn't mutate when told about an input it should #accept" do
+    original_resource = build_resource
+    modified_resource = original_resource.accept(:name)
+    expect { modified_resource.parse(:name => nil) }.not_to raise_error
+    expect { original_resource.parse(:name => nil) }.to raise_error(Semiformal::UnacceptableInput)
   end
 
   def build_model(name = 'Post', &block)

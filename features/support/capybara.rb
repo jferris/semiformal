@@ -41,14 +41,14 @@ module Capybara::RailsServer
       reset_url(url)
       query = Rack::Utils.build_nested_query(params)
       path_with_query = [@current_path, query].join('?')
-      @current_response = RailsServer.get(path_with_query)
+      handle_response RailsServer.get(path_with_query)
       follow_redirects
     end
 
     def post(url, params = {})
       reset_url(url)
       data = Rack::Utils.build_nested_query(params)
-      @current_response = RailsServer.post(@current_path, data)
+      handle_response RailsServer.post(@current_path, data)
       follow_redirects
     end
 
@@ -63,6 +63,13 @@ module Capybara::RailsServer
 
     def html
       @html ||= Nokogiri::HTML.parse(body)
+    end
+
+    def handle_response(response)
+      if response.code.to_i == 500
+        raise "Server failed to respond!\n#{response.body}"
+      end
+      @current_response = response
     end
 
     def follow_redirects

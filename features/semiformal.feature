@@ -43,8 +43,7 @@ Feature: generate an application and run rake
       end
 
       def assign_resource
-        @resource = Semiformal::Resource.new(@post)
-        @resource.accept(:title)
+        @resource = Semiformal::Resource.new(@post).accept(:title)
       end
 
       def resource_params

@@ -30,7 +30,7 @@ class RailsServer
   def self.run(port, silent)
     ENV['RAILS_ENV'] ||= 'test'
     require './config/environment'
-    app = Identify.new(Rails.application)
+    app = Identify.new(ExceptionInspector.new(Rails.application))
     Thin::Logging.silent = silent
     Rack::Handler::Thin.run(app, :Port => port, :AccessLog => [])
   end
@@ -87,6 +87,26 @@ class RailsServer
 
   def app_host
     "http://#{HOST}:#{@port}"
+  end
+
+  class ExceptionInspector
+    def initialize(app)
+      @app = app
+    end
+
+    def call(env)
+      @app.call(env)
+    rescue Exception => exception
+      render_exception exception
+    end
+
+    private
+
+    def render_exception(exception)
+      lines = ["#{exception.class}: #{exception.message}"] + exception.backtrace
+      body = lines.join("\n")
+      [500, { "Content-Type" => "text/plain", "Content-Length" => body.size.to_s }, [body]]
+    end
   end
 
   # From Capybara::Server

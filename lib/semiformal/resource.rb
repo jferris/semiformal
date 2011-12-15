@@ -6,9 +6,9 @@ module Semiformal
   # Defines accepted parameters, conversions, and generated input names for
   # an HTTP resource.
   class Resource
-    def initialize(model)
+    def initialize(model, options = {})
       @model = model
-      @inputs = []
+      @inputs = options[:inputs] || []
     end
 
     def method
@@ -39,7 +39,7 @@ module Semiformal
     end
 
     def accept(name)
-      @inputs << name.to_sym
+      self.class.new(@model, :inputs => @inputs + [name.to_sym])
     end
 
     def parse(params)

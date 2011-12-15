@@ -6,10 +6,9 @@ describe Semiformal::ActionViewHelpers do
   include ModelBuilder
 
   let(:target) { define_model("Post").new }
-  let(:resource) { Semiformal::Resource.new(target) }
+  let(:resource) { Semiformal::Resource.new(target).accept(:object_id) }
 
   def render(template)
-    resource.accept :object_id
     view = ActionView::Base.new
     def view.posts_path
       "/posts"
