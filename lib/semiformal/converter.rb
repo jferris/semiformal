@@ -5,15 +5,16 @@ require 'semiformal/array_value'
 module Semiformal
   # Determines how to convert values based on requested and actual types.
   class Converter
+    def initialize
+      @value_factories = {
+        :integer => IntegerValue,
+        :array => ArrayValue,
+        :string => TextValue
+      }
+    end
+
     def convert(raw_value, options)
-      case options[:as]
-      when :integer
-        IntegerValue.new(raw_value)
-      when :array
-        ArrayValue.new(raw_value)
-      when :string
-        TextValue.new(raw_value)
-      end
+      @value_factories[options[:as]].new(raw_value)
     end
   end
 end
