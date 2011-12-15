@@ -6,7 +6,15 @@ module Semiformal
     end
 
     def to_s
-      convert
+      @string_value
+    end
+
+    def to_i
+      @string_value.to_i
+    end
+
+    def to_a
+      @string_value.split(",").map(&:strip)
     end
 
     def convert

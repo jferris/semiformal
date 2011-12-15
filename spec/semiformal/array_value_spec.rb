@@ -10,6 +10,10 @@ describe Semiformal::ArrayValue do
     Semiformal::ArrayValue.new(1..2).to_a.should == [1, 2]
   end
 
+  it "converts #to_i" do
+    Semiformal::ArrayValue.new(1..2).to_i.should == 0
+  end
+
   it "can #set a value" do
     Semiformal::ArrayValue.new([1]).set([2]).to_s.should == "2"
   end

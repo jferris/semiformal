@@ -13,6 +13,10 @@ module Semiformal
       @integer_value
     end
 
+    def to_a
+      [@integer_value.to_s]
+    end
+
     def convert
       @integer_value
     end

@@ -10,6 +10,10 @@ describe Semiformal::IntegerValue do
     Semiformal::IntegerValue.new("52").to_i.should == 52
   end
 
+  it "converts #to_a" do
+    Semiformal::IntegerValue.new(52).to_a.should == %w(52)
+  end
+
   it "can #set a value" do
     Semiformal::IntegerValue.new("52").set("38").to_s.should == "38"
   end

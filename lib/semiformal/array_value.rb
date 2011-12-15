@@ -13,6 +13,10 @@ module Semiformal
       @array_value
     end
 
+    def to_i
+      0
+    end
+
     def set(new_value)
       self.class.new(new_value)
     end
