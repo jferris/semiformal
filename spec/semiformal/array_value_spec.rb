@@ -29,4 +29,12 @@ describe Semiformal::ArrayValue do
   it "isn't #== with a different array value" do
     Semiformal::ArrayValue.new(1..3).should_not == Semiformal::ArrayValue.new(1..4)
   end
+
+  it "will #accept? an array value" do
+    Semiformal::ArrayValue.accept?([1, 2]).should be_true
+  end
+
+  it "won't #accept? anything else" do
+    Semiformal::ArrayValue.accept?("1, 2").should be_false
+  end
 end

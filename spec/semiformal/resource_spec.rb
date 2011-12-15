@@ -106,6 +106,13 @@ describe Semiformal::Resource do
     resource.parse(:colors => [1, 2, 3]).should == { :colors => [1, 2, 3] }
   end
 
+  it "can #parse parameters and perform conversions" do
+    resource = build_resource {
+      attr_reader :colors
+    }.accept(:colors, :as => :array)
+    resource.parse(:colors => "red, green").should == { :colors => %w(red green) }
+  end
+
   def build_model(name = 'Post', &block)
     define_model(name, &block).new
   end

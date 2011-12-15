@@ -29,4 +29,8 @@ describe Semiformal::TextValue do
   it "isn't #== with a different value" do
     Semiformal::TextValue.new("test").should_not == Semiformal::TextValue.new("other")
   end
+
+  it "will #accept? anything" do
+    Semiformal::TextValue.accept?(nil).should be_true
+  end
 end

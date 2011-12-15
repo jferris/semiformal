@@ -5,6 +5,10 @@ module Semiformal
       @array_value = raw_value.to_a
     end
 
+    def self.accept?(raw_value)
+      raw_value.respond_to?(:to_ary)
+    end
+
     def to_s
       @array_value.join(", ")
     end

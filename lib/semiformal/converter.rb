@@ -16,5 +16,12 @@ module Semiformal
     def convert(raw_value, options)
       @value_factories[options[:as]].new(raw_value)
     end
+
+    def guess(raw_value)
+      factory = @value_factories.values.detect do |factory|
+        factory.accept?(raw_value)
+      end
+      factory.new(raw_value)
+    end
   end
 end

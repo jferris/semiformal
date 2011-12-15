@@ -5,6 +5,10 @@ module Semiformal
       @integer_value = raw_value.to_i
     end
 
+    def self.accept?(raw_value)
+      false
+    end
+
     def to_s
       @integer_value.to_s
     end

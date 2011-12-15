@@ -44,7 +44,8 @@ module Semiformal
     end
 
     def parse(params)
-      params.inject({}) do |result, (name, value)|
+      params.inject({}) do |result, (name, raw_value)|
+        value = @converter.guess(raw_value)
         result.update name => find_input(name).convert(value)
       end
     end

@@ -5,6 +5,10 @@ module Semiformal
       @string_value = raw_value.to_s
     end
 
+    def self.accept?(raw_value)
+      true
+    end
+
     def to_s
       @string_value
     end

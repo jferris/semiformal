@@ -29,4 +29,8 @@ describe Semiformal::IntegerValue do
   it "isn't #== with a different numeric value" do
     Semiformal::IntegerValue.new(52).should_not == Semiformal::IntegerValue.new(51)
   end
+
+  it "doesn't #accept? anything" do
+    Semiformal::IntegerValue.accept?(5).should be_false
+  end
 end
