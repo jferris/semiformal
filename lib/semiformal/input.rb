@@ -27,6 +27,10 @@ module Semiformal
       value == other.value && name == other.name && prefix == other.prefix
     end
 
+    def convert(raw_value)
+      @value.set(raw_value).convert
+    end
+
     protected
 
     attr_reader :value, :prefix

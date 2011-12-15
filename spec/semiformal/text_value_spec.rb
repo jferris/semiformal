@@ -7,6 +7,14 @@ describe Semiformal::TextValue do
     value.to_s.should == "value"
   end
 
+  it "can #set a value" do
+    Semiformal::TextValue.new(:value).set(:new_value).should == "new_value"
+  end
+
+  it "can #convert a value" do
+    Semiformal::TextValue.new(:value).convert.should == "value"
+  end
+
   it "is #== with the same value" do
     Semiformal::TextValue.new("test").should == Semiformal::TextValue.new("test")
   end

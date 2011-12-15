@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'semiformal/input'
+require 'semiformal/text_value'
+require 'semiformal/integer_value'
 
 describe Semiformal::Input do
   it "has a #name" do
@@ -36,6 +38,11 @@ describe Semiformal::Input do
   it "isn't #== with the same name and value but a different prefix" do
     build_input(:name => "name", :prefix => "prefix", :value => "value").
       should_not == build_input(:name => "name", :prefix => "other prefix", :value => "value")
+  end
+
+  it "can #convert a value" do
+    build_input(:value => Semiformal::TextValue.new('whatever')).convert(52).should == "52"
+    build_input(:value => Semiformal::IntegerValue.new('whatever')).convert("52").should == 52
   end
 
   def build_input(attributes = {})

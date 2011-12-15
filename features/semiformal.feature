@@ -12,7 +12,7 @@ Feature: generate an application and run rake
     And I successfully run `bundle install`
 
   Scenario: simple form
-    When I successfully run `rails generate model post title:string body:string`
+    When I successfully run `rails generate model post title:string body:string age:integer`
     When I write to "app/controllers/posts_controller.rb" with:
     """
     class PostsController < ApplicationController
@@ -23,8 +23,9 @@ Feature: generate an application and run rake
       end
 
       def create
+        @post = Post.new
         assign_resource
-        @post = Post.new(resource_params)
+        @post.attributes = resource_params
         @post.save!
         redirect_to [:edit, @post]
       end
@@ -36,14 +37,14 @@ Feature: generate an application and run rake
       end
 
       def update
-        assign_resource
         @post = Post.find(params[:id])
+        assign_resource
         @post.update_attributes!(resource_params)
         redirect_to [:edit, @post]
       end
 
       def assign_resource
-        @resource = Semiformal::Resource.new(@post).accept(:title)
+        @resource = Semiformal::Resource.new(@post).accept(:title).accept(:age, :as => :integer)
       end
 
       def resource_params
