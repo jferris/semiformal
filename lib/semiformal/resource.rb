@@ -1,6 +1,7 @@
 require 'semiformal/input'
 require 'semiformal/text_value'
 require 'semiformal/integer_value'
+require 'semiformal/array_value'
 require 'semiformal/unacceptable_input'
 
 module Semiformal
@@ -40,6 +41,8 @@ module Semiformal
       raw_value = model.send(input_name)
       if options[:as] == :integer
         value = IntegerValue.new(raw_value)
+      elsif options[:as] == :array
+        value = ArrayValue.new(raw_value)
       else
         value = TextValue.new(raw_value)
       end

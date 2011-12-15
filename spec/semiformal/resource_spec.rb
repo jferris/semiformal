@@ -99,6 +99,13 @@ describe Semiformal::Resource do
     resource.parse(:age => "52").should == { :age => 52 }
   end
 
+  it "can #parse an array parameter" do
+    resource = build_resource {
+      attr_reader :colors
+    }.accept(:colors, :as => :array)
+    resource.parse(:colors => [1, 2, 3]).should == { :colors => [1, 2, 3] }
+  end
+
   def build_model(name = 'Post', &block)
     define_model(name, &block).new
   end
