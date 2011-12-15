@@ -1,7 +1,5 @@
 require 'semiformal/input'
-require 'semiformal/text_value'
-require 'semiformal/integer_value'
-require 'semiformal/array_value'
+require 'semiformal/converter'
 require 'semiformal/unacceptable_input'
 
 module Semiformal
@@ -11,6 +9,7 @@ module Semiformal
     def initialize(model, options = {})
       @model = model
       @inputs = options[:inputs] || []
+      @converter = Converter.new
     end
 
     def method
@@ -39,13 +38,7 @@ module Semiformal
 
     def accept(input_name, options = {})
       raw_value = model.send(input_name)
-      if options[:as] == :integer
-        value = IntegerValue.new(raw_value)
-      elsif options[:as] == :array
-        value = ArrayValue.new(raw_value)
-      else
-        value = TextValue.new(raw_value)
-      end
+      value = @converter.convert(raw_value, :as => options[:as] || :string)
       input = Input.new(:name => input_name.to_sym, :prefix => name, :value => value)
       self.class.new(@model, :inputs => @inputs + [input])
     end

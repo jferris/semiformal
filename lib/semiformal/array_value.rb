@@ -9,12 +9,20 @@ module Semiformal
       @array_value.join(", ")
     end
 
+    def to_a
+      @array_value
+    end
+
     def set(new_value)
       self.class.new(new_value)
     end
 
     def convert
       @array_value
+    end
+
+    def ==(other)
+      to_a == other.to_a
     end
   end
 end
