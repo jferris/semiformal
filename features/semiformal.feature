@@ -2,17 +2,16 @@
 Feature: generate an application and run rake
 
   Background:
-    When I successfully run `rails new testapp`
-    And I cd to "testapp"
+    When I generate a new rails app
     And I append to "Gemfile" with:
     """
     gem "thin"
     """
     When I add the "semiformal" gem from this project as a dependency
-    And I successfully run `bundle install`
+    And I successfully run `bundle install --local`
 
   Scenario: simple form
-    When I successfully run `rails generate model post title:string body:string age:integer`
+    When I successfully run `bundle exec rails generate model post title:string body:string age:integer`
     When I write to "app/controllers/posts_controller.rb" with:
     """
     class PostsController < ApplicationController
@@ -72,7 +71,7 @@ Feature: generate an application and run rake
     <%= render :partial => 'form' %>
     """
     When I route the "posts" resource
-    When I successfully run `rake db:migrate db:test:prepare`
+    When I successfully run `bundle exec rake db:migrate db:test:prepare`
     And I start the application
     And I visit /posts/new
     And I fill in "Title" with "example"

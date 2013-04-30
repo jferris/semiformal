@@ -46,7 +46,7 @@ class RailsServer
 
   def start
     @pid = fork do
-      exec("ruby -r#{__FILE__} -e 'RailsServer.run(#{@port}, #{!@debug.inspect})'")
+      exec("ruby -r#{__FILE__} -e 'RailsServer.run(#{@port}, #{(!@debug).inspect})'")
     end
     wait_until_responsive
   end

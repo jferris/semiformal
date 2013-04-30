@@ -4,7 +4,7 @@ require 'cucumber/rake/task'
 require 'reek/rake/task'
 
 desc 'Default: run all tests and metrics'
-task :default => [:spec, :cucumber, :reek]
+task :default => [:spec, :cucumber]
 
 Cucumber::Rake::Task.new(:cucumber) do |t|
   t.fork = true
@@ -17,6 +17,5 @@ RSpec::Core::RakeTask.new do |t|
 end
 
 Reek::Rake::Task.new do |t|
-  t.fail_on_error = true
   t.reek_opts = '-q'
 end

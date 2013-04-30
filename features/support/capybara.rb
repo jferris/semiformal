@@ -21,7 +21,7 @@ module Capybara::RailsServer
       get(path)
     end
 
-    def find(query)
+    def find_xpath(query)
       html.xpath(query).map { |node| Node.new(self, node) }
     end
 
