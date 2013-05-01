@@ -22,6 +22,11 @@ describe Semiformal::Resource do
     Semiformal::Resource.new(model).url_target.should == model
   end
 
+  it "accepts a #url_target when initialized" do
+    model = build_model
+    Semiformal::Resource.new(model, url: :target).url_target.should == :target
+  end
+
   it "uses post as the #method for an unpersisted model" do
     resource = build_resource do
       def persisted?

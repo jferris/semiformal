@@ -9,6 +9,7 @@ module Semiformal
     def initialize(model, options = {})
       @model = model
       @inputs = options[:inputs] || []
+      @url_target = options[:url] || @model
       @converter = Converter.new
     end
 
@@ -21,7 +22,7 @@ module Semiformal
     end
 
     def url_target
-      model
+      @url_target
     end
 
     def name
@@ -40,7 +41,7 @@ module Semiformal
       raw_value = model.send(input_name)
       value = @converter.convert(raw_value, :as => options[:as] || :string)
       input = Input.new(:name => input_name.to_sym, :prefix => name, :value => value)
-      self.class.new(@model, :inputs => @inputs + [input])
+      self.class.new(@model, :inputs => @inputs + [input], url: url_target)
     end
 
     def parse(params)
